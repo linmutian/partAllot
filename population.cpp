@@ -1,9 +1,6 @@
 #include <population.h>
-#include <stdlib.h>
-#include <iomanip>
 #include <algorithm>
 #include <time.h> 
-#include <iostream>
 
 bool sortFun(int arr1[PartnerNum+2], int arr2[PartnerNum + 2])
 {
@@ -73,7 +70,7 @@ void population::setPartnerGHF(int GFH[PartnerNum])
 	}
 }
 
-void population::init(void)
+void population::init()
 {
 	for (int i = 0; i < PopulationNum; i++)
 	{
@@ -84,7 +81,7 @@ void population::init(void)
 	}
 }
 
-void population::eval(void)
+void population::eval()
 {
 	for (int i = 0; i < PopulationNum; i++)
 	{
@@ -92,11 +89,11 @@ void population::eval(void)
 	}
 	std::sort(pop, pop+PopulationNum, sortFun);
 	maxWoodIncome = pop[0][12];
-	for (int i = 0; i < PartnerNum; i++)
+	for (int i = 0; i < PartnerNum + 2; i++)
 		king[i] = pop[0][i];
 }
 
-void population::select(void)
+void population::select()
 {
 	// ¸´ÖÆÊý¾Ý
 	int tempPop[PopulationNum][PartnerNum];
@@ -189,7 +186,7 @@ void population::evolution(int incomeThreshold)
 
 	init();
 	eval();
-	for (int i = 0; i < 3000 && sameTime < maxSameTime; i++)
+	for (int i = 0; i < 10000 && sameTime < maxSameTime; i++)
 	{
 		if (i == 1000 && maxWoodIncome < incomeThreshold)
 			break;
@@ -210,5 +207,4 @@ void population::evolution(int incomeThreshold)
 		}
 		time++;
 	}
-	//std::cout << " Max wood income = " << maxWoodIncome << "   Calc time:" << time << std::endl;
 }

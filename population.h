@@ -1,5 +1,4 @@
 #pragma once
-
 const int StageNum = 18; // 关卡数
 const int PartnerNum = 12;  // 小伙伴数量
 const int PopulationNum = 300; // 种群数量
@@ -12,25 +11,18 @@ class population
 public:
 	population(int[PartnerNum]);
 
-	void init();
-	void eval();
-	void select();
-	void crossOver(int, int);
-	void cross();
-	void variance();
-	void evolution(int incomeThreshold =1000);
+	void setPartnerGHF(int[PartnerNum]);
+	void evolution(int incomeThreshold = 1000);
 
-	int calcIncome(int partnerAllot[PartnerNum + 2]);
-	void setPartnerGHF(int [PartnerNum]);
 	int maxWoodIncome;
-	int king[PartnerNum];
+	int king[PartnerNum + 2];
 
 private:
 	/*
-	pol 即种群 ，个体pol[i]的编码为:
-	pol[i][0~11]为分配关卡;
-	pol[i][12]为对应总木头收益;
-	pol[i][13]为对应总金币收益.
+	pop 即种群 ，个体pop[i]的编码为:
+	pop[i][0~11]为分配关卡;
+	pop[i][12]为对应总木头收益;
+	pop[i][13]为对应总金币收益.
 	*/
 	int **pop = new int*[PopulationNum];
 	int partGFH[PartnerNum]; // 伙伴的攻防和
@@ -42,4 +34,13 @@ private:
 	int stageIncomeCoin[StageNum] = // 关卡金币收益
 	{ 289716,442332,464316,508548,552780,575028,619260,663492,
 		773940,884652,995112,1106076,1217304,1328532,1439760,1550988,1662216,1773444 };
+
+	void init();
+	void eval();
+	void select();
+	void crossOver(int, int);
+	void cross();
+	void variance();
+
+	int calcIncome(int partnerAllot[PartnerNum + 2]);
 };
