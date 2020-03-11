@@ -55,9 +55,7 @@ population::population(int GFH[PartnerNum])
 		{
 			pop[i][j] = rand() % StageNum;
 		}
-
 	}
-
 }
 
 void population::setPartnerGHF(int GFH[PartnerNum])
@@ -127,7 +125,7 @@ void population::select()
 	//ÆäËü£¬¶ÄÂÖÅÌ
 	for (int i = KingNum; i < PopulationNum; i++)
 	{
-		double pointer = rand()*1.0 / UINT_MAX * maxScale;
+		double pointer = rand() / double(RAND_MAX) * maxScale;
 		int k = 0;
 		while (pointer > wheel[k])
 		{

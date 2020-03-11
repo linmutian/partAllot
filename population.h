@@ -1,4 +1,5 @@
 #pragma once
+
 const int StageNum = 18; // 关卡数
 const int PartnerNum = 12;  // 小伙伴数量
 const int PopulationNum = 300; // 种群数量
