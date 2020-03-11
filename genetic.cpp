@@ -1,6 +1,7 @@
 #include <genetic.h>
 #include <iostream>
 #include <time.h> 
+#include <iomanip>
 
 genetic::genetic(int initCalcTime)
 {
@@ -18,7 +19,6 @@ void genetic::setCalcTime(int inputCalcTime)
 {
 	if (inputCalcTime < 100)
 	{
-		std::cout << " 输入次数过少，将调整为100" << std::endl;
 		calcTime = 100;
 	}
 	calcTime = inputCalcTime;
@@ -26,11 +26,15 @@ void genetic::setCalcTime(int inputCalcTime)
 
 void genetic::evolution()
 {
-	time_t tStart = clock();
+	time_t timeStart = clock();
+	time_t timeNow, timeLast;
+
 	int maxIncome = 0;
+	timeLast = clock();
 
 	for (int i = 0; i < calcTime; i++)
 	{
+
 		p->evolution(maxIncome); 
 		if (maxIncome < p->maxWoodIncome)
 		{
@@ -38,16 +42,53 @@ void genetic::evolution()
 			for (int j = 0; j < PartnerNum + 2; j++)
 				bestAllot[j] = p->king[j];
 		}
-	}
-	time_t tEnd = clock();
 
-	std::cout << "maxIncome = " << maxIncome << std::endl;
-	std::cout << "  allot：";
+		timeNow = clock();
+		if (i == calcTime - 1)
+		{
+			time_t timeEnd = clock();
+			std::cout << " 计算完成！  耗时 =" << (timeEnd - timeStart)/1000.0 << " s. " << std::endl;
+			std::cout << std::endl << " ---------------------" << std::endl << std::endl;
+		}
+		else if (timeNow - timeLast > 5000)
+		{
+			double timeRest = 1.0*(timeNow - timeStart)*(calcTime - i) / (1000 * i);
+			std::cout << " " << i << " calculations completed , current progress : " << std::fixed << std::setprecision(3) << 100.0*i / calcTime << " % , ";
+			std::cout << "time remaining estimated : " << (int)timeRest << " s" << std::endl;
+			timeLast = timeNow;
+		}
+	}
+}
+
+void genetic::output()
+{
+	std::cout << "  伙伴序号  ";
 	for (int i = 0; i < PartnerNum; i++)
 	{
-		std::cout << bestAllot[i] << "  ";
+		std::cout << std::setw(4) << i + 1;
+	}
+	std::cout << std::endl << "  分配关卡  ";
+	for (int i = 0; i < PartnerNum; i++)
+	{
+		std::cout << std::setw(4) << this->bestAllot[i] + 1;
+	}
+	std::cout << std::endl << std::endl;
+
+	std::cout << " 关卡 分配伙伴" << std::endl;
+	for (int j = 0; j < StageNum; j++) {
+		std::cout << std::setw(5) << j + 1;
+		for (int i = 0; i < PartnerNum; i++)
+		{
+			if (bestAllot[i] == j) {
+				std::cout << std::setw(4) << i + 1;
+			}
+		}
+		std::cout << std::endl;
 	}
 	std::cout << std::endl;
-	std::cout << " 耗时 = " << tEnd - tStart << " ms. " << std::endl;
+
+	std::cout << "铁矿 = " << bestAllot[PartnerNum] / 5 << std::endl;
+	std::cout << "木头 = " << bestAllot[PartnerNum] << std::endl;
+	std::cout << "金币 = " << bestAllot[PartnerNum + 1] << std::endl << std::endl;
 
 }
