@@ -4,12 +4,10 @@
 
 bool sortFun(int arr1[PartnerNum+2], int arr2[PartnerNum + 2])
 {
-	if (arr1[PartnerNum] > arr2[PartnerNum])
-		return true;
-	else if (arr1[PartnerNum] = arr2[PartnerNum] && arr1[PartnerNum + 1] > arr2[PartnerNum + 1])
-		return true;
+	if (arr1[PartnerNum] != arr2[PartnerNum])
+		return arr1[PartnerNum] > arr2[PartnerNum];
 	else
-		return false;
+		return arr1[PartnerNum + 1] > arr2[PartnerNum + 1];
 }
 
 int population::calcIncome(int partnerAllot[PartnerNum + 2])
